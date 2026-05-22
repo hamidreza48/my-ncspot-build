@@ -13,10 +13,18 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: List files in repository
+        run: ls -F
+
+      - name: Install Dependencies
+        run: brew install portaudio
+
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
 
       - name: Build
+        # اگر Cargo.toml در پوشه اصلی است، دستور زیر کار می‌کند. 
+        # اگر خطا داد، فایل های لیست شده در مرحله بالا را به من بگو.
         run: cargo build --release --no-default-features --features "portaudio-backend,rustls-tls-webpki-roots"
 
       - name: Upload artifact
