@@ -2,7 +2,7 @@ name: Build librespot
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, master ]
 
 jobs:
   build:
@@ -10,13 +10,13 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        fetch-depth: 0
+        with:
+          fetch-depth: 0
 
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
 
       - name: Build
-        # اضافه کردن قابلیت rustls-tls-webpki-roots برای رفع خطای TLS
         run: cargo build --release --no-default-features --features "portaudio-backend,rustls-tls-webpki-roots"
 
       - name: Upload artifact
