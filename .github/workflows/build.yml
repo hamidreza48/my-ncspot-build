@@ -10,16 +10,14 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          repository: librespot-org/librespot
-          # ref را کاملاً حذف می‌کنیم تا خودش از شاخه پیش‌فرض استفاده کند
-          fetch-depth: 0
+        fetch-depth: 0
 
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
 
       - name: Build
-        run: cargo build --release --no-default-features --features portaudio-backend
+        # اضافه کردن قابلیت rustls-tls-webpki-roots برای رفع خطای TLS
+        run: cargo build --release --no-default-features --features "portaudio-backend,rustls-tls-webpki-roots"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
