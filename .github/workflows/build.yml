@@ -13,6 +13,7 @@ jobs:
         with:
           repository: librespot-org/librespot
           ref: master
+          fetch-depth: 0 # این خط برای حل مشکل فچ کردن اجباری است
 
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
