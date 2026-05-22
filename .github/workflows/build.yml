@@ -1,4 +1,4 @@
-name: Build ncspot for macOS
+name: Build librespot
 
 on:
   push:
@@ -11,22 +11,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          repository: hrkfdn/ncspot
-          ref: main
-
-      - name: Install dependencies
-        run: |
-          brew install portaudio openssl@3
-          echo "PKG_CONFIG_PATH=/usr/local/opt/openssl@3/lib/pkgconfig" >> $GITHUB_ENV
+          repository: librespot-org/librespot
+          ref: master
 
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
 
       - name: Build
-        run: cargo build --release
+        run: cargo build --release --no-default-features --features portaudio-backend
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ncspot-macos
-          path: target/release/ncspot
+          name: librespot-macos
+          path: target/release/librespot
