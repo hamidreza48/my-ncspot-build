@@ -12,8 +12,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: librespot-org/librespot
-          ref: master
-          fetch-depth: 0 # این خط برای حل مشکل فچ کردن اجباری است
+          # ref را کاملاً حذف می‌کنیم تا خودش از شاخه پیش‌فرض استفاده کند
+          fetch-depth: 0
 
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
