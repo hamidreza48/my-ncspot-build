@@ -1,26 +1,24 @@
-name: Build Librespot
-on: [push, workflow_dispatch]
+name: Build MacOS
+on: [push]
+
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: macos-12  # استفاده از نسخه کمی قدیمی‌تر
     steps:
-      - name: Install Dependencies
-        run: brew install portaudio
-
-      - name: Checkout/Clone Librespot
-        run: |
-          git clone --depth 1 https://github.com/librespot-org/librespot.git .
-
-      - name: Install Rust
-        uses: dtolnay/rust-toolchain@stable
-
+      - uses: actions/checkout@v3
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: 1.70.0 # نسخه پایدار و سازگار
+          override: true
+      
       - name: Build
         run: |
+          # تنظیم فلگ برای سازگاری با معماری Core 2 Duo
           export MACOSX_DEPLOYMENT_TARGET=10.12
-          cargo build --release --no-default-features --features portaudio-backend,rustls-tls-webpki-roots
-
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v4
+          cargo build --release --features="daemon"
+          
+      - name: Upload binary
+        uses: actions/upload-artifact@v3
         with:
-          name: librespot-macos
-          path: target/release/librespot
+          name: spotify-player-macos
+          path: target/release/spotify-player
