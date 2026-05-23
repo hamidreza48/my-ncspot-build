@@ -1,32 +1,21 @@
-name: Build librespot
-
-on:
-  push:
-    branches: [ main, master ]
-  workflow_dispatch: 
-
+name: Build Librespot
+on: [push]
 jobs:
   build:
     runs-on: macos-latest
     steps:
-      - name: Checkout librespot source code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v3
         with:
-          repository: librespot-org/librespot
-          ref: dev  # تغییر کرد: از master به dev تغییر یافت
           fetch-depth: 0
-
-      - name: Install Dependencies
-        run: brew install portaudio
-
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
-
+      # اضافه کردن این بخش برای تنظیم هدف روی نسخه قدیمی
       - name: Build
-        run: cargo build --release --no-default-features --features "portaudio-backend,rustls-tls-webpki-roots"
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        run: |
+          export MACOSX_DEPLOYMENT_TARGET=10.12
+          cargo build --release --no-default-features --features portaudio-backend,rustls-tls-webpki-roots
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
         with:
           name: librespot-macos
           path: target/release/librespot
