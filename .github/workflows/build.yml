@@ -4,10 +4,9 @@ jobs:
   build:
     runs-on: macos-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+      - name: Checkout/Clone Librespot
+        run: |
+          git clone --depth 1 https://github.com/librespot-org/librespot.git .
 
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
