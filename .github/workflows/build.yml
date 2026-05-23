@@ -4,6 +4,9 @@ jobs:
   build:
     runs-on: macos-latest
     steps:
+      - name: Install Dependencies
+        run: brew install portaudio
+
       - name: Checkout/Clone Librespot
         run: |
           git clone --depth 1 https://github.com/librespot-org/librespot.git .
